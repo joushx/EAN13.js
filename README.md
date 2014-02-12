@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/joushx/EAN13.jspng?branch=master)](https://travis-ci.org/joushx/EAN13.js)
+[![Build Status](https://travis-ci.org/joushx/EAN13.js.png?branch=master)](https://travis-ci.org/joushx/EAN13.js)
 
 #EAN13
 EAN13 is a lightweight (~3kb) JavaScript library for in-place generation of EAN-13 barcodes.

@@ -1,8 +1,6 @@
 "use strict";
 var EAN13;
 
-EAN13 = "x";
-
 EAN13 = (function() {
   EAN13.prototype.defaults = {
     number: true,
@@ -166,17 +164,18 @@ EAN13 = (function() {
   };
 
   EAN13.prototype.validate = function(number) {
-    var chars, counter, result;
+    var chars, counter, result, value, _i, _len;
     result = null;
     chars = number.split("");
     counter = 0;
-    $.each(chars, function(key, value) {
-      if (key % 2 === 0) {
-        return counter += parseInt(value, 10);
+    for (_i = 0, _len = chars.length; _i < _len; _i++) {
+      value = chars[_i];
+      if (_i % 2 === 0) {
+        counter += parseInt(value, 10);
       } else {
-        return counter += 3 * parseInt(value, 10);
+        counter += 3 * parseInt(value, 10);
       }
-    });
+    }
     if ((counter % 10) === 0) {
       result = true;
     } else {

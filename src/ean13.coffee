@@ -1,8 +1,6 @@
 # use ecma 5 strict mode
 "use strict"
 
-EAN13 = "x"
-
 # create class
 class EAN13
   # properties
@@ -246,10 +244,9 @@ class EAN13
     counter = 0
 
     # loop through chars
-    $.each chars, (key, value) ->
-
+    for value in chars
       # check if odd
-      if key % 2 is 0
+      if _i % 2 is 0
 
         # count up counter
         counter += parseInt(value, 10)

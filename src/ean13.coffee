@@ -91,9 +91,9 @@ class EAN13
       lines = code.split("")
 
       # add left border
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width
 
       # loop through left lines
@@ -101,7 +101,7 @@ class EAN13
       while i < 42
 
         # if char is 1: draw a line
-        context.fillRect offsetX+left, offsetY+0, item_width, height  if lines[i] is "1"
+        context.fillRect offsetX+left, offsetY, item_width, height  if lines[i] is "1"
 
         # alter offset
         left = left + item_width
@@ -109,9 +109,9 @@ class EAN13
 
       # add center
       left = left + item_width
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
 
       # loop through right lines
@@ -119,16 +119,16 @@ class EAN13
       while i < 84
 
         # if char is 1: draw a line
-        context.fillRect offsetX+left, offsetY+0, item_width, height  if lines[i] is "1"
+        context.fillRect offsetX+left, offsetY, item_width, height  if lines[i] is "1"
 
         # alter offset
         left = left + item_width
         i++
 
       # add right border
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect offsetX+left, offsetY+0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
 
       # add number representation if settings.number == true
       if @options.number

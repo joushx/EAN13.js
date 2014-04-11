@@ -270,5 +270,5 @@ class EAN13
     # return result
     result
     
-if (typeof(module)!='undefined' && typeof(module.exports)!='undefined') 
+if (typeof(module)!='undefined' && typeof(module.exports)!='undefined')
   module.exports=EAN13

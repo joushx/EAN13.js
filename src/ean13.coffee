@@ -55,7 +55,6 @@ class EAN13
     #Offset
     offsetX = @options.offsetX
     offsetY = @options.offsetY
-    
 
     # get width of barcode element
     width = @options.width || element.width

@@ -53,8 +53,8 @@ class EAN13
       text_offset: 4.5
       
     #Offset
-    offsetX = @options.offsetX;
-    offsetY = @options.offsetY;
+    offsetX = @options.offsetX
+    offsetY = @options.offsetY
     
 
     # get width of barcode element

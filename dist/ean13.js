@@ -6,6 +6,8 @@ EAN13 = (function() {
     number: true,
     prefix: true,
     color: "#000",
+    offsetX: 0,
+    offsetY: 0,
     onValid: function() {},
     onInvalid: function() {},
     onSuccess: function() {},
@@ -24,7 +26,7 @@ EAN13 = (function() {
   };
 
   EAN13.prototype.print = function(element, code, number) {
-    var border_height, char, chars, context, height, i, item_width, layout, left, lines, offset, prefix, width, _i, _j, _len, _len1;
+    var border_height, char, chars, context, height, i, item_width, layout, left, lines, offset, offsetX, offsetY, prefix, width, _i, _j, _len, _len1;
     layout = {
       prefix_offset: 0.06,
       font_stretch: 0.073,
@@ -35,14 +37,17 @@ EAN13 = (function() {
       font_y: 1.03,
       text_offset: 4.5
     };
-    width = (this.options.prefix ? element.width * 0.8 : element.width);
+    offsetX = this.options.offsetX;
+    offsetY = this.options.offsetY;
+    width = this.options.width || element.width;
+    width = (this.options.prefix ? width * 0.8 : width);
+    height = this.options.height || element.height;
     if (this.options.number) {
-      border_height = layout.border_line_height_number * element.height;
-      height = layout.line_height * border_height;
+      border_height = layout.border_line_height_number * height;
     } else {
-      border_height = layout.border_line_height * element.height;
-      height = layout.line_height * border_height;
+      border_height = layout.border_line_height * height;
     }
+    height = layout.line_height * border_height;
     item_width = width / 95;
     if (element.getContext) {
       context = element.getContext("2d");
@@ -50,52 +55,52 @@ EAN13 = (function() {
       context.fillStyle = this.options.color;
       left = (this.options.prefix ? element.width * layout.prefix_offset : 0);
       lines = code.split("");
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       left = left + item_width * 2;
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       left = left + item_width;
       i = 0;
       while (i < 42) {
         if (lines[i] === "1") {
-          context.fillRect(left, 0, item_width, height);
+          context.fillRect(offsetX + left, offsetY, item_width, height);
         }
         left = left + item_width;
         i++;
       }
       left = left + item_width;
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       left = left + item_width * 2;
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       left = left + item_width * 2;
       i = 42;
       while (i < 84) {
         if (lines[i] === "1") {
-          context.fillRect(left, 0, item_width, height);
+          context.fillRect(offsetX + left, offsetY, item_width, height);
         }
         left = left + item_width;
         i++;
       }
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       left = left + item_width * 2;
-      context.fillRect(left, 0, item_width, border_height);
+      context.fillRect(offsetX + left, offsetY, item_width, border_height);
       if (this.options.number) {
         context.font = layout.font_size * height + "px monospace";
         prefix = number.substr(0, 1);
         if (this.options.prefix) {
-          context.fillText(prefix, 0, border_height * layout.font_y);
+          context.fillText(prefix, offsetX + 0, offsetY + (border_height * layout.font_y));
         }
         offset = item_width * layout.text_offset + (this.options.prefix ? layout.prefix_offset * element.width : 0);
         chars = number.substr(1, 6).split("");
         for (_i = 0, _len = chars.length; _i < _len; _i++) {
           char = chars[_i];
-          context.fillText(char, offset, border_height * layout.font_y);
+          context.fillText(char, offsetX + offset, offsetY + (border_height * layout.font_y));
           offset += layout.font_stretch * width;
         }
         offset = 49 * item_width + (this.options.prefix ? layout.prefix_offset * element.width : 0) + layout.text_offset;
         chars = number.substr(7).split("");
         for (_j = 0, _len1 = chars.length; _j < _len1; _j++) {
           char = chars[_j];
-          context.fillText(char, offset, border_height * layout.font_y);
+          context.fillText(char, offsetX + offset, offsetY + (border_height * layout.font_y));
           offset += layout.font_stretch * width;
         }
       }
@@ -110,19 +115,14 @@ EAN13 = (function() {
   };
 
   EAN13.prototype.clear = function(element, context) {
-    return context.clearRect(0, 0, element.width, element.height);
+    return context.clearRect(this.options.offsetX, this.options.offsetY, this.options.width || element.width, this.options.height || element.height);
   };
 
   EAN13.prototype.parseOptions = function(_options) {
     
-    for(var option in this.defaults){
-      if(option in _options){
-        this.options[option] = _options[option];
-      }
-      else{
-        this.options[option] = this.defaults[option];
-      }
-    }
+    this.options=_options;
+    for(var option in this.defaults)
+      this.options[option] = _options[option] || this.defaults[option];
     ;
     return null;
   };
@@ -187,3 +187,7 @@ EAN13 = (function() {
   return EAN13;
 
 })();
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = EAN13;
+}

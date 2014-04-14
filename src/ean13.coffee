@@ -12,13 +12,17 @@ class EAN13
     number: true
     prefix: true
     color: "#000"
+    
+    # Offset
+    offsetX:0
+    offsetY:0
 
     # callbacks
     onValid: ->
     onInvalid: ->
     onSuccess: ->
     onError: ->
-
+    
   # real option values
   options: {}
 
@@ -47,17 +51,23 @@ class EAN13
       font_size: 0.15
       font_y: 1.03
       text_offset: 4.5
+      
+    #Offset
+    offsetX = @options.offsetX
+    offsetY = @options.offsetY
 
     # get width of barcode element
-    width = (if @options.prefix then element.width * 0.8 else element.width)
+    width = @options.width || element.width
+    width = (if @options.prefix then width * 0.8 else width)
 
+    height = @options.height || element.height
     # check if number should be printed
     if @options.number
-      border_height = layout.border_line_height_number * element.height
-      height = layout.line_height * border_height
+      border_height = layout.border_line_height_number * height
     else
-      border_height = layout.border_line_height * element.height
-      height = layout.line_height * border_height
+      border_height = layout.border_line_height * height
+      
+    height = layout.line_height * border_height
 
     # calculate width of every element
     item_width = width / 95
@@ -81,9 +91,9 @@ class EAN13
       lines = code.split("")
 
       # add left border
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width
 
       # loop through left lines
@@ -91,7 +101,7 @@ class EAN13
       while i < 42
 
         # if char is 1: draw a line
-        context.fillRect left, 0, item_width, height  if lines[i] is "1"
+        context.fillRect offsetX+left, offsetY, item_width, height  if lines[i] is "1"
 
         # alter offset
         left = left + item_width
@@ -99,9 +109,9 @@ class EAN13
 
       # add center
       left = left + item_width
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
 
       # loop through right lines
@@ -109,16 +119,16 @@ class EAN13
       while i < 84
 
         # if char is 1: draw a line
-        context.fillRect left, 0, item_width, height  if lines[i] is "1"
+        context.fillRect offsetX+left, offsetY, item_width, height  if lines[i] is "1"
 
         # alter offset
         left = left + item_width
         i++
 
       # add right border
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
       left = left + item_width * 2
-      context.fillRect left, 0, item_width, border_height
+      context.fillRect offsetX+left, offsetY, item_width, border_height
 
       # add number representation if settings.number == true
       if @options.number
@@ -130,7 +140,7 @@ class EAN13
         prefix = number.substr(0, 1)
 
         # print prefix
-        context.fillText prefix, 0, border_height * layout.font_y  if @options.prefix
+        context.fillText prefix, offsetX+0, offsetY+(border_height * layout.font_y)  if @options.prefix
 
         # init offset
         offset = item_width * layout.text_offset + ((if @options.prefix then layout.prefix_offset * element.width else 0))
@@ -142,7 +152,7 @@ class EAN13
         for char in chars
 
           # print text
-          context.fillText char, offset, border_height * layout.font_y
+          context.fillText char, offsetX+offset, offsetY+(border_height * layout.font_y)
 
           # alter offset
           offset += layout.font_stretch * width
@@ -157,7 +167,7 @@ class EAN13
         for char in chars
 
           # print text
-          context.fillText char, offset, border_height * layout.font_y
+          context.fillText char, offsetX+offset, offsetY+(border_height * layout.font_y)
 
           # alter offset
           offset += layout.font_stretch * width
@@ -171,18 +181,13 @@ class EAN13
 
   clear: (element, context) ->
     # clear canvas
-    context.clearRect(0, 0, element.width, element.height)
+    context.clearRect(@options.offsetX, @options.offsetY, @options.width || element.width, @options.height || element.height)
 
   parseOptions: (_options) ->
     `
-    for(var option in this.defaults){
-      if(option in _options){
-        this.options[option] = _options[option];
-      }
-      else{
-        this.options[option] = this.defaults[option];
-      }
-    }
+    this.options=_options;
+    for(var option in this.defaults)
+      this.options[option] = _options[option] || this.defaults[option];
     `
     null
 
@@ -264,3 +269,6 @@ class EAN13
     
     # return result
     result
+    
+if (typeof(module)!='undefined' && typeof(module.exports)!='undefined')
+  module.exports=EAN13

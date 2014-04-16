@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/joushx/EAN13.js.png?branch=master)](https://travis-ci.org/joushx/EAN13.js)
+[![Build Status](https://travis-ci.org/joushx/EAN13.js.png?branch=master)](https://travis-ci.org/joushx/EAN13.js) <a href="https://flattr.com/submit/auto?user_id=joushx&url=https%3A%2F%2Fgithub.com%2Fjoushx%2FEAN13.js" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
 
 #EAN13
 EAN13 is a lightweight (~3kb) JavaScript library for in-place generation of EAN-13 barcodes.

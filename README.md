@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/joushx/EAN13.js.png?branch=master)](https://travis-ci.org/joushx/EAN13.js) <a href="https://flattr.com/submit/auto?user_id=joushx&url=https%3A%2F%2Fgithub.com%2Fjoushx%2FEAN13.js" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
 
 #EAN13
-EAN13 is a lightweight (~3kb) JavaScript library for in-place generation of EAN-13 barcodes.
+EAN13.js is a lightweight and fast JavaScript library for the generation of EAN13 barcodes. It's plain JavaScript and is also compatible with Node.js.
 
 <img src="https://raw.github.com/joushx/EAN13.js/master/barcode.png"/>
 
@@ -10,14 +10,14 @@ This is a non-jQuery fork of my [jQuery.EAN13](https://github.com/joushx/jQuery.
 ##Usage##
 
 ###Include Plugin###
-Insert the following code into the `head` section of you page:
+Insert the library by placing the following code in the `head` section of your page:
 
 ```html
 <script type="text/javascript" src="ean13.min.js"></script>
 ```
 
 ###Insert Canvas###
-At the place where you want to insert the barcode insert this code:
+At the place where you want to insert the barcode insert a canvas element:
 
 ```html
 <canvas id="ean" width="200" height="100">
@@ -25,10 +25,10 @@ At the place where you want to insert the barcode insert this code:
 </canvas>
 ```
 
-You may change the dimensions of the element. The barcode will automatically be resized.
+You may change the size of the element. The barcode will be generated to match it.
 
 ###Print barcode###
-For printing the code of the provided number with the number under it, just use the following code:
+For printing the code just create a new instance and call the `draw()` method:
 
 ```javascript
 // create instance
@@ -136,6 +136,3 @@ var options = {
 	}
 };
 ```
-
-##Author##
-Johannes Mittendorfer (http://johannes-mittendorfer.com)
